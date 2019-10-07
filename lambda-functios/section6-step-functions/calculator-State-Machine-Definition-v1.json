@@ -1,0 +1,23 @@
+{
+    "StartAt": "calculate",
+    "States": {
+      "calculate": {
+        "Type": "Task",
+        "Resource": "arn:aws:lambda:us-west-2:012345678901:function:calculator",
+        "InputPath": "$.lambda",
+        "End": true
+      }
+    }
+  },
+
+{
+  "Comment": "Insert your JSON here",
+  "lambda": {
+    "operation": "add",
+    "input": {
+      "operand1": 5,
+      "operand2": 3
+    }
+  },
+  "moreData": "abcd",
+}

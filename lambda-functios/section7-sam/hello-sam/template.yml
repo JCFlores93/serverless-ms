@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Hello World with SAM
+
+Globals: 
+  Function:
+     MemorySize: 128
+      Runtime: nodejs8.10
+      Timeout: 5
+
+Resources:
+  eventLogger:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: logger.handler
+      Timeout: 3
+     
+  
+  addNumbers:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: add.handler
+  
+  TestApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: test
+      DefinitionUri: swagger-def.yml
