@@ -2,11 +2,11 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: Hello World with SAM
 
-Globals: 
+Globals:
   Function:
-     MemorySize: 128
-      Runtime: nodejs8.10
-      Timeout: 5
+    MemorySize: 128
+    Runtime: nodejs8.10
+    Timeout: 5
 
 Resources:
   eventLogger:
@@ -14,15 +14,28 @@ Resources:
     Properties:
       Handler: logger.handler
       Timeout: 3
-     
-  
+      Events:
+        GetLogs:
+          Type: Api
+          Properties:
+            Path: /logs
+            Method: get
+        FileUpload:
+          Type: S3
+          Properties:
+            Bucket: !Ref MyBucket
+            Events: s3:ObjectCreated:*
+
+  MyBucket:
+    Type: AWS::S3::Bucket
+
   addNumbers:
     Type: AWS::Serverless::Function
     Properties:
       Handler: add.handler
-  
-  TestApi:
-    Type: AWS::Serverless::Api
-    Properties:
-      StageName: test
-      DefinitionUri: swagger-def.yml
+      Events:
+        PostAdd:
+          Type: Api
+          Properties:
+            Path: /add
+            Method: post
